@@ -31,6 +31,9 @@ class E57Tools:
         rct.argtypes = [ctypes.c_char_p, ptrToolsFileInfo]
         rct.restype = ctypes.c_int64
         info = ToolsFileInfo()
+        info.colorRed   = -1
+        info.colorGreen = -1
+        info.colorBlue  = -1
         count = e57tools.recordCount(pname, info) 
         okXYZ = info.cartesianX != info.cartesianY != info.cartesianZ
         
@@ -58,5 +61,20 @@ class E57Tools:
                     self.pts.append(FreeCAD.Vector(x,y,z))
             pt=Points.Points(self.pts)
             Points.show(pt)
+            self.points = App.ActiveDocument.ActiveObject
+            if (info.colorRed > -1):
+                self.points.ViewObject.addProperty(
+                    'App::PropertyColorList', 
+                    'ColorList', 
+                    'Object Style', 
+                    'The color of the points.')
+                colors = []
+                for i in range(count):
+                    r = others[i][info.colorRed] / 255
+                    g = others[i][info.colorGreen] / 255
+                    b = others[i][info.colorBlue] / 255
+                    colors.append((r,g,b,0.))
+                self.points.ViewObject.ColorList = colors
+                self.points.ViewObject.DisplayMode = u'Color' 
 
 test = E57Tools(TESTFILE)
