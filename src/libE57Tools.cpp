@@ -88,37 +88,37 @@ int64_t recordCount(char* filename, ToolsFileInfo* info)
                 Node n(prototype.get(i));
 				
 				if (n.elementName()=="cartesianX") {
-					info->cartesianX = i;
+					info->cartesianX = info->BuffersFloatsCount;
 				}
 				
 				if (n.elementName()=="cartesianY") {
-					info->cartesianY = i;
+					info->cartesianY = info->BuffersFloatsCount;
 				}
 		
 				if (n.elementName()=="cartesianZ") {
-					info->cartesianZ = i;
+					info->cartesianZ = info->BuffersFloatsCount;
 				}
 				
 				if (n.elementName()=="cartesianInvalidState") {
-					info->cartesianInvalidState = i;
+					info->cartesianInvalidState = info->BuffersIntsCount;
 				}
 				if (n.elementName()=="intensity") {
-					info->intensity = i;
+					info->intensity = info->BuffersFloatsCount;
 				}
 				if (n.elementName()=="colorRed") {
-					info->colorRed= i;
+					info->colorRed= info->BuffersIntsCount;
 				}
 				if (n.elementName()=="colorGreen") {
-					info->colorGreen = i;
+					info->colorGreen = info->BuffersIntsCount;
 				}
 				if (n.elementName()=="colorBlue") {
-					info->colorBlue = i;
+					info->colorBlue = info->BuffersIntsCount;
 				}
 				if (n.elementName()=="columnIndex") {
-					info->columnIndex = i;
+					info->columnIndex = info->BuffersIntsCount;
 				}
 				if (n.elementName()=="rowIndex") {
-					info->rowIndex = i;
+					info->rowIndex = info->BuffersIntsCount;
 				}
 
                 switch(n.type()) {
