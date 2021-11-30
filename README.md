@@ -8,7 +8,7 @@ Compiling
 git clone --recurse-submodules https://github.com/ageeye/libE57Tools.git
 cd libE57Tools
 mkdir build && cd build
-XERCES_ROOT="/usr/local/Cellar/xerces-c/3.2.2/" cmake ..
+cmake ..
 cd libE57Format
 make
 cd ..
