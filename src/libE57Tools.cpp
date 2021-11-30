@@ -81,6 +81,8 @@ int64_t recordCount(char* filename, ToolsFileInfo* info)
 			int64_t* ibuf = new int64_t[buflen * buf_size];
 			
 			info->channels = prototype.childCount();
+			info->BuffersFloatsCount = 0;
+			info->BuffersIntsCount = 0;
 			
             for (int i=0; i<prototype.childCount(); ++i) {
                 Node n(prototype.get(i));
@@ -100,10 +102,29 @@ int64_t recordCount(char* filename, ToolsFileInfo* info)
 				if (n.elementName()=="cartesianInvalidState") {
 					info->cartesianInvalidState = i;
 				}
+				if (n.elementName()=="intensity") {
+					info->intensity = i;
+				}
+				if (n.elementName()=="colorRed") {
+					info->colorRed= i;
+				}
+				if (n.elementName()=="colorGreen") {
+					info->colorGreen = i;
+				}
+				if (n.elementName()=="colorBlue") {
+					info->colorBlue = i;
+				}
+				if (n.elementName()=="columnIndex") {
+					info->columnIndex = i;
+				}
+				if (n.elementName()=="rowIndex") {
+					info->rowIndex = i;
+				}
 
                 switch(n.type()) {
                     case e57::E57_FLOAT:
                     case e57::E57_SCALED_INTEGER:
+						info->BuffersFloatsCount++;
                         sdb.push_back(
                             SourceDestBuffer(
                                 imf
@@ -116,6 +137,7 @@ int64_t recordCount(char* filename, ToolsFileInfo* info)
                         );
                         break;
                     case e57::E57_INTEGER:
+						info->BuffersIntsCount++;
                         sdb.push_back(
                             SourceDestBuffer(
                                 imf
@@ -213,7 +235,7 @@ int64_t importfile(char* filename, double *xyz, int64_t *state)
                          	xyz[fpos++] = fbuf[j*buf_size+i];
                          }
 					 	else {
-							state[ipos++] = ibuf[i];
+							state[ipos++] = ibuf[j*buf_size+i];
 					 	}
                  }
             }
