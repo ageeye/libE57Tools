@@ -1,5 +1,6 @@
 LIBRARY  = '.../liblibE57Tools.0.1.0.dylib'
 TESTFILE = u'.../Downloads/bunnyDouble.e57'
+MINDISTANCE = 0.03 # to disable set the value < 0
 
 import ctypes, Points
 
@@ -53,12 +54,21 @@ class E57Tools:
             count = e57tools.importfile(pname, xyz, others) 
             
             self.pts = []
+            colormap = []
+            last = None
             if count > 0:
                 for i in range(count):
                     x = xyz[i][info.cartesianX] 
                     y = xyz[i][info.cartesianY]
-                    z = xyz[i][info.cartesianZ]  
-                    self.pts.append(FreeCAD.Vector(x,y,z))
+                    z = xyz[i][info.cartesianZ]
+                    current = FreeCAD.Vector(x,y,z)
+                    if not last:
+                        last = current
+                    if i==0 or (last.distanceToPoint(current) > MINDISTANCE):
+                        self.pts.append(current)
+                        colormap.append(i)
+                        last = current
+                    
             pt=Points.Points(self.pts)
             Points.show(pt)
             self.points = App.ActiveDocument.ActiveObject
@@ -69,7 +79,7 @@ class E57Tools:
                     'Object Style', 
                     'The color of the points.')
                 colors = []
-                for i in range(count):
+                for i in colormap:
                     r = others[i][info.colorRed] / 255
                     g = others[i][info.colorGreen] / 255
                     b = others[i][info.colorBlue] / 255
