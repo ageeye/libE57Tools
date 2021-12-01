@@ -63,7 +63,7 @@ class E57Tools:
             Points.show(pt)
             self.points = App.ActiveDocument.ActiveObject
             if (info.colorRed > -1):
-                self.points.ViewObject.addProperty(
+                self.points.addProperty(
                     'App::PropertyColorList', 
                     'ColorList', 
                     'Object Style', 
@@ -73,8 +73,8 @@ class E57Tools:
                     r = others[i][info.colorRed] / 255
                     g = others[i][info.colorGreen] / 255
                     b = others[i][info.colorBlue] / 255
-                    colors.append((r,g,b,0.))
-                self.points.ViewObject.ColorList = colors
+                    colors.append((r,g,b))
+                self.points.ColorList = colors
                 self.points.ViewObject.DisplayMode = u'Color' 
 
 test = E57Tools(TESTFILE)
